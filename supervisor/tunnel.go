@@ -563,9 +563,10 @@ func (e *EdgeTunnelServer) serveQUIC(
 
 	// quic-go 0.44 increases the initial packet size to 1280 by default. That breaks anyone running tunnel through WARP
 	// because WARP MTU is 1280.
+	// RFC8899 recommends 1200 for IPV4.
 	var initialPacketSize uint16 = 1252
 	if edgeAddr.Addr().Is4() {
-		initialPacketSize = 1232
+		initialPacketSize = 1200
 	}
 
 	quicConfig := &quic.Config{
